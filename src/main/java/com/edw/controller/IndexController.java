@@ -1,6 +1,8 @@
 package com.edw.controller;
 
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -19,11 +21,20 @@ public class IndexController {
 
     private static final String PASSWORD = "SOME_RANDOM_PASSWORD";
 
+    private BasicTextEncryptor encryptor = new BasicTextEncryptor();
+
     @GetMapping("/")
     public Map helloWorld() {
         return new HashMap() {{
             put("hello", "world");
-            put("your password is ", PASSWORD);
+        }};
+    }
+
+    @GetMapping("/test")
+    public Map testEncrypt(@RequestParam final String text) {
+        encryptor.setPassword(PASSWORD);
+        return new HashMap() {{
+            put("encrypted", encryptor.encrypt(text));
         }};
     }
 
