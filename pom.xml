@@ -50,6 +50,8 @@
         <sonar.organization>${SONAR_ORG}</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
+        <sonar.java.spotbugs.reportPaths>target/spotbugsXml.xml</sonar.java.spotbugs.reportPaths>
+
     </properties>
 
     <dependencyManagement>
@@ -154,6 +156,26 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>4.8.5.0</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.github.spotbugs</groupId>
+                                <artifactId>spotbugs</artifactId>
+                                <version>4.8.5</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <effort>Max</effort>
+                            <threshold>Low</threshold>
+                            <failOnError>false</failOnError>
+                            <maxHeap>1024</maxHeap>
+                        </configuration>
+
                     </plugin>
                 </plugins>
             </build>
