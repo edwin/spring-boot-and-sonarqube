@@ -27,7 +27,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public Employee getEmployee(@PathVariable Integer id) {
-        return employeeRepository.findById(id).orElse(null);
+        return employeeRepository.findById(id).orElse(new Employee());
     }
 
 }
