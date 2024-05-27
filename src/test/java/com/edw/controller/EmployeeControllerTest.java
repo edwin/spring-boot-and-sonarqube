@@ -38,15 +38,16 @@ public class EmployeeControllerTest {
 
     @Test
     @DisplayName("01. Test Get Employee Page should give 200")
-    public void test_indexPageShouldGive_200() {
+    public void test_getNotFoundEmployeePageShouldGive_200() {
         given()
                 .log().all()
-                .when().get("/employee/1")
-                .then()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+                .get("/employee/1")
+            .then()
                 .statusCode(200)
                 .log().all();
     }
-
 
     @Test
     @DisplayName("02. Test Create Employee Page should give 200")
@@ -56,8 +57,36 @@ public class EmployeeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .body("{\"employeeName\":\"dodol\"}")
-                .when().post("/employee/")
-                .then()
+            .when()
+                .post("/employee/")
+            .then()
+                .statusCode(200)
+                .body("employeeName", hasToString("dodol"))
+                .log().all();
+    }
+
+
+    @Test
+    @DisplayName("03. Test Get Existing Employee Page should give 200")
+    public void test_getExistingEmployeePageShouldGive_200() {
+        given()
+                .log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .body("{\"employeeName\":\"dodol\"}")
+            .when()
+                .post("/employee/")
+            .then()
+                .statusCode(200)
+                .body("employeeName", hasToString("dodol"))
+                .log().all();
+
+        given()
+                .log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+                .get("/employee/1")
+            .then()
                 .statusCode(200)
                 .body("employeeName", hasToString("dodol"))
                 .log().all();

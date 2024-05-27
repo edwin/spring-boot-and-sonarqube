@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -40,8 +41,10 @@ public class IndexControllerTest {
     public void test_indexPageShouldGive_200() {
         given()
                 .log().all()
-                .when().get("/")
-                .then()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+                .get("/")
+            .then()
                 .statusCode(200)
                 .body("hello", hasToString("world"))
                 .log().all();
@@ -53,8 +56,9 @@ public class IndexControllerTest {
     public void test_randomPageShouldGive_404() {
         given()
                 .log().all()
-                .when().get("/some-random-page")
-                .then()
+            .when()
+                .get("/some-random-page")
+            .then()
                 .statusCode(404)
                 .log().all();
     }
